@@ -1,5 +1,3 @@
-#include "static.h"
-
 #include "SnapshotModel.hpp"
 #include "QMetaUtilities.hpp"
 #include "MouseLogic.hpp"
