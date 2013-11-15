@@ -1,6 +1,5 @@
 require './ruby/guard/helpers'
 
-notification :growl
 ignore_paths 'build', 'release', 'vendor'
 
 guard :bundler do
