@@ -235,6 +235,9 @@ void SnapshotModel::floodPickContour(int x, int y, int fuzz, const QString& laye
 
     // merge masks
     cv::Rect img_bounds = bounds - cv::Point(1,1);
+    if (img_bounds.x < 0) img_bounds.x = 0;
+    if (img_bounds.y < 0) img_bounds.y = 0;
+
     cv::Mat(mask, img_bounds) |= cv::Mat(pickMask, bounds) * 255;
 
     // if intersected some polygons - remove these polygons and grow ROI with their bounds
