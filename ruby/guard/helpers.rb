@@ -1,4 +1,5 @@
 require 'guard'
+require 'open3'
 require './ruby/guard/groupwrap'
 
 def color(text, *color_options)
