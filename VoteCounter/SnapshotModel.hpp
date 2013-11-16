@@ -64,8 +64,9 @@ public slots:
     void on_mouseLogic_rectUpdated(QRectF rect, Qt::MouseButton button, Qt::KeyboardModifiers mods);
     void on_mouseLogic_rectSelected(QRectF rect, Qt::MouseButton button, Qt::KeyboardModifiers mods);
     void on_countWatcher_finished();
-    void on_commit_clicked();
     void on_http_finished( QNetworkReply * reply );
+
+    void submitCounts();
 
 protected:
     static QStringSet s_cacheableImages;

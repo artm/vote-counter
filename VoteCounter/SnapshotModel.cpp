@@ -142,10 +142,17 @@ void SnapshotModel::updateViews()
         layer("count.colorDiff")->setVisible( m_showColorDiff );
         layer("count.contours")->setVisible( !m_showColorDiff );
 
+        bool countsChanged = false;
         foreach(QString color, s_colorNames) {
             int count = layer("count.contours." + color)->childItems().count();
-            parent()->findChild<QLabel*>( color + "Count" )->setText( QString("%1").arg( count ) );
+            QString countText = QString("%1").arg( count );
+            QLabel * widget =  parent()->findChild<QLabel*>( color + "Count" );
+            countsChanged = countsChanged || (widget->text() != countText);
+            widget->setText( countText );
         }
+
+        if (countsChanged)
+          submitCounts();
 
         break;
     }
@@ -746,7 +753,7 @@ void SnapshotModel::addContour(const QPolygonF &contour, const QString &name, bo
     }
 }
 
-void SnapshotModel::on_commit_clicked()
+void SnapshotModel::submitCounts()
 {
     // http://heckle.at/heckle/6/tvt.php?f=command_vc&v=77&u=14&o=88
     // v is pink
@@ -759,12 +766,15 @@ void SnapshotModel::on_commit_clicked()
               .arg( uiValue("greenCount", "text").toInt()   )
               .arg( uiValue("yellowCount", "text").toInt()  ) );
 
+    qDebug()
+        << "Submitting counts to: "
+        << url;
     m_networkManager->get( QNetworkRequest(url) );
 }
 
 void SnapshotModel::on_http_finished(QNetworkReply *reply)
 {
     if (reply->error() != QNetworkReply::NoError)
-        qDebug() << "HTTP Error:" << reply->error();
+        qDebug() << "HTTP Error: " << reply->error();
     reply->deleteLater();
 }
